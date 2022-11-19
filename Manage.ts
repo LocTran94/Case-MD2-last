@@ -48,15 +48,15 @@ class QuanLy {
     }
 
 
-    static total(id: string) {
-        let arr: string [] = id.split(',')
+    static total(name: string) {
+        let arr: string [] = name.split(',')
         let tong1: Phone [] = []
 
 
         for (let i = 0; i < QuanLy.listPhone.length; i++) {
 
             for (let j = 0; j < arr.length; j++) {
-                if (QuanLy.listPhone[i].phoneID == arr[j]) {
+                if (QuanLy.listPhone[i].name == arr[j]) {
                     return QuanLy.listPhone[i]
                 }
 
@@ -106,7 +106,7 @@ function addIphone() {
     let name = readlineSync.question('Enter Name :  ');
     let date = +readlineSync.question('Enter Date :  ');
     let amount = readlineSync.question('Enter Amount :  ');
-    let phoneID = readlineSync.question('Enter PhoneID :  ');
+    let phoneID = +readlineSync.question('Enter PhoneID :  ');
     let price = +readlineSync.question('Enter Price :  ');
 
     let iphone = new Iphone(phoneID, amount, name, price, date);
@@ -120,7 +120,7 @@ function addSamsung() {
     let name = readlineSync.question('Enter Name :  ');
     let date = +readlineSync.question('Enter Date :  ');
     let amount = readlineSync.question('Enter Amount :  ');
-    let phoneID = readlineSync.question('Enter PhoneID :  ');
+    let phoneID = +readlineSync.question('Enter PhoneID :  ');
     let price = +readlineSync.question('Enter Price :  ');
 
     let samsung = new Samsung(phoneID, amount, name, price, date);
@@ -134,7 +134,7 @@ function addNokia() {
     let name = readlineSync.question('Enter Name :  ');
     let date = +readlineSync.question('Enter Date :  ');
     let amount = readlineSync.question('Enter Amount :  ');
-    let phoneID = readlineSync.question('Enter PhoneID :  ');
+    let phoneID = +readlineSync.question('Enter PhoneID :  ');
     let price = +readlineSync.question('Enter Price :  ');
 
     let nokia = new Nokia(phoneID, amount, name, price, date);

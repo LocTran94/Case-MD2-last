@@ -1,26 +1,27 @@
-export abstract class Phone {
-
+export class Phone {
+    name: string
     phoneID: number
-    amount: number
     price: number
-    constructor(phoneID: number, amount: number,price:number) {
-        this.phoneID = phoneID
-        this.amount = amount
-        this.price = price
+    brand: string
 
+    constructor(phoneID: number, price: number, name: string, brand: string) {
+        this.phoneID = phoneID
+        this.price = price
+        this.name = name
+        this.brand = brand
     }
 
 }
 
 export class Iphone extends Phone {
-    name: string
+    amount: number
     date: number
-    brand: string = 'Iphone'
 
-    constructor(phoneID: number, amount: number, name: string, price: number, date: number) {
-        super(phoneID, amount,price)
+
+    constructor(phoneID: number, amount: number, name: string, price: number, date: number, brand = 'Iphone') {
+        super(phoneID, price, name, brand = 'Iphone')
         this.date = date
-        this.name = name
+        this.amount = amount
 
 
     }
@@ -28,14 +29,14 @@ export class Iphone extends Phone {
 
 
 export class Samsung extends Phone {
-    name: string
+    amount: number
     date: number
-    brand: string = 'Samsung'
 
-    constructor(phoneID: number, amount: number, name: string, price: number, date: number) {
-        super(phoneID, amount,price)
+
+    constructor(phoneID: number, amount: number, name: string, price: number, date: number, brand = 'Samsung') {
+        super(phoneID, price, name, brand = 'Samsung')
         this.date = date
-        this.name = name
+        this.amount = amount
 
 
     }
@@ -43,15 +44,16 @@ export class Samsung extends Phone {
 
 
 export class Nokia extends Phone {
-    name: string
+    amount: number
     date: number
-    brand: string = 'Nokia'
 
-    constructor(phoneID: number, amount: number, name: string, price: number, date: number) {
-        super(phoneID, amount,price)
+
+    constructor(phoneID: number, amount: number, name: string, price: number, date: number, brand = 'Nokia') {
+        super(phoneID, price, name, brand = 'Nokia')
         this.date = date
-        this.name = name
+        this.amount = amount
 
 
     }
 }
+

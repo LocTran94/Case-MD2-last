@@ -6,29 +6,30 @@ import {Phone} from "./Product";
 
 class QuanLy {
 
-    static listPhone: any [] = []
+    listPhone: Phone [] = []
 
 
-    static add(phone:Phone ): void {
-        QuanLy.listPhone.push(phone)
+    add(phone: Phone): void {
+        this.listPhone.push(phone)
     }
 
-    static display(): void {
+    display(): void {
         console.table(this.listPhone)
     }
 
-    static delete(phoneID: number): void {
-        for (let i = 0; i < QuanLy.listPhone.length; i++) {
-            if (QuanLy.listPhone[i].phoneID === phoneID) {
-                QuanLy.listPhone.splice(i, 1)
+    delete(id: number) {
+        for (let i = 0; i < this.listPhone.length; i++) {
+            if (this.listPhone[i].phoneID == id) {
+                this.listPhone.splice(i, 1)
             }
         }
-        QuanLy.display()
+
+        return this.listPhone
     }
 
-    static find(name: string): void {
+    find(name: string): void {
 
-        let newData: object = QuanLy.listPhone.filter(element => {
+        let newData: object = this.listPhone.filter(element => {
 
                 return (element.name === name)
             }
@@ -38,8 +39,8 @@ class QuanLy {
     }
 
 
-    static findBrand(brand: string) {
-        let newData: object = QuanLy.listPhone.filter(element => {
+    findBrand(brand: string) {
+        let newData: object = this.listPhone.filter(element => {
                 return (element.brand === brand)
             }
         )
@@ -48,20 +49,20 @@ class QuanLy {
     }
 
 
-    static total(name: string) {
+    total(name: string) {
         let arr: string [] = name.split(',')
         let tong1: Phone [] = []
 
 
-        for (let i = 0; i < QuanLy.listPhone.length; i++) {
+        for (let i = 0; i < this.listPhone.length; i++) {
 
             for (let j = 0; j < arr.length; j++) {
-                if (QuanLy.listPhone[i].name == arr[j]) {
-                    return QuanLy.listPhone[i]
+                if (this.listPhone[i].name == arr[j]) {
+                    return this.listPhone[i]
                 }
 
             }
-            tong1.push(QuanLy.listPhone[i])
+            tong1.push(this.listPhone[i])
         }
 
         let tong: number = tong1.reduce((a, b) => a + b.price, 0)
@@ -69,36 +70,36 @@ class QuanLy {
     }
 
 
-    static edit(idEdit:number, phone:object) {
-        for (let i = 0; i < QuanLy.listPhone.length; i++) {
-            if (QuanLy.listPhone[i].phoneID === idEdit) {
-                QuanLy.listPhone[i] = phone
+    edit(id: number, phone: Phone) {
+        for (let i = 0; i < this.listPhone.length; i++) {
+            if (this.listPhone[i].phoneID == id) {
+                this.listPhone[i] = phone
             }
         }
-        return QuanLy.display()
+        console.table(this.listPhone)
     }
 
 
-    static findPriceMax() {
+    findPriceMax() {
 
-        return Math.max(...QuanLy.listPhone.map((i) => i.price))
+        return Math.max(...this.listPhone.map((i) => i.price))
     }
 
-    static findMaxPhone() {
-        let phone = QuanLy.listPhone.filter(element => element.price === QuanLy.findPriceMax())
+    findMaxPhone() {
+        let phone = this.listPhone.filter(element => element.price === this.findPriceMax())
         console.table(phone)
     }
 
-    static findPhone(a:number, b:number) {
-        let phone = QuanLy.listPhone.filter(element => a < element.price && element.price < b)
+    findPhone(a: number, b: number) {
+        let phone = this.listPhone.filter(element => a < element.price && element.price < b)
         console.table(phone)
     }
 
 }
 
 
-
 let readlineSync = require('readline-sync')
+let quanly = new QuanLy()
 
 
 function addIphone() {
@@ -109,10 +110,11 @@ function addIphone() {
     let phoneID = +readlineSync.question('Enter PhoneID :  ');
     let price = +readlineSync.question('Enter Price :  ');
 
+
     let iphone = new Iphone(phoneID, amount, name, price, date);
 
 
-    QuanLy.add(iphone);
+    quanly.add(iphone);
 }
 
 function addSamsung() {
@@ -126,7 +128,7 @@ function addSamsung() {
     let samsung = new Samsung(phoneID, amount, name, price, date);
 
 
-    QuanLy.add(samsung);
+    quanly.add(samsung);
 }
 
 function addNokia() {
@@ -140,12 +142,11 @@ function addNokia() {
     let nokia = new Nokia(phoneID, amount, name, price, date);
 
 
-    QuanLy.add(nokia);
+    quanly.add(nokia);
 }
 
 
-
-function addMenu(){
+function addMenu() {
     let menu = `---------Bạn muốn thêm cán bộ nào-----------
     1.Iphone
     2.Samsung
@@ -171,6 +172,30 @@ function addMenu(){
 }
 
 
+function editProduct() {
+    let menu = `---------Bạn muốn edit sản phẩm nào-----------
+    1.Iphone
+    2.Samsung
+    3.Nokia
+    0.Ra menu chính`
+    let choice = -1;
+    do {
+        console.log(menu)
+        choice = +readlineSync.question('Enter Choice : ');
+        switch (choice) {
+            case 1:
+                editIphone();
+                break;
+            case 2:
+                editSamsung();
+                break;
+            case 3:
+                editNokia()
+                break;
+
+        }
+    } while (choice !== 0);
+}
 
 
 function main() {
@@ -228,51 +253,83 @@ function main() {
 main();
 
 function deleteProduct() {
-    let idDelete = readlineSync.question('Enter id delete : ')
-    QuanLy.delete(idDelete);
+    let id = readlineSync.question('Enter id delete : ')
+    quanly.delete(id);
 }
 
 function display() {
     console.log('------Hiển thị sản phẩm----------')
-    QuanLy.display();
+    quanly.display();
 }
 
 function findByName() {
     let name: string = readlineSync.question('Enter name need to find : ')
-    QuanLy.find(name);
+    quanly.find(name);
 }
 
 function findBrand() {
     let brand = readlineSync.question('Enter brand need to find : ')
-    QuanLy.findBrand(brand);
+    quanly.findBrand(brand);
 }
 
 function sum() {
     let id = readlineSync.question('Enter product ID need to buy : ')
-    QuanLy.total(id)
+    quanly.total(id)
 }
 
-function editProduct() {
-    let idEdit = readlineSync.question('Enter id edit : ')
+
+function editIphone() {
+    let id = +readlineSync.question('Enter id edit : ')
     console.log('-------Form sửa sản phầm----------')
-    let name1 = readlineSync.question('Enter Name :  ');
+    let name = readlineSync.question('Enter Name :  ');
     let date = +readlineSync.question('Enter Date :  ');
-    let amount = readlineSync.question('Enter Amount :  ');
-    let phoneID = readlineSync.question('Enter PhoneID :  ');
+    let amount = +readlineSync.question('Enter Amount :  ');
+    let phoneID = +readlineSync.question('Enter PhoneID :  ');
     let price = +readlineSync.question('Enter Price :  ');
 
-    let phone = new Iphone(phoneID, amount, name1, price,date)
-    QuanLy.edit(idEdit, phone);
+    let phone: Phone = new Iphone(phoneID, amount, name, price, date)
+    quanly.edit(id, phone);
+
+}
+
+function editSamsung() {
+    let id = +readlineSync.question('Enter id edit : ')
+    console.log('-------Form sửa sản phầm----------')
+    let name = readlineSync.question('Enter Name :  ');
+    let date = +readlineSync.question('Enter Date :  ');
+    let amount = +readlineSync.question('Enter Amount :  ');
+    let phoneID = +readlineSync.question('Enter PhoneID :  ');
+    let price = +readlineSync.question('Enter Price :  ');
+
+    let phone: Phone = new Samsung(phoneID, amount, name, price, date)
+    quanly.edit(id, phone);
+
+}
+
+
+function editNokia() {
+    let id = +readlineSync.question('Enter id edit : ')
+    console.log('-------Form sửa sản phầm----------')
+    let name = readlineSync.question('Enter Name :  ');
+    let date = +readlineSync.question('Enter Date :  ');
+    let amount = +readlineSync.question('Enter Amount :  ');
+    let phoneID = +readlineSync.question('Enter PhoneID :  ');
+    let price = +readlineSync.question('Enter Price :  ');
+
+    let phone: Phone = new Nokia(phoneID, amount, name, price, date)
+    quanly.edit(id, phone);
 
 }
 
 function max() {
-    QuanLy.findMaxPhone()
+    quanly.findMaxPhone()
 }
 
 function findPricePhone() {
     let a = +readlineSync.question('Enter price1 need to buy : ')
     let b = +readlineSync.question('Enter price2 need to buy : ')
-    QuanLy.findPhone(a, b)
+    quanly.findPhone(a, b)
 }
+
+
 

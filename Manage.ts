@@ -332,4 +332,6 @@ function findPricePhone() {
 }
 
 
+chú ý : npm install --save readline-sync  và npm install để chạy file không lỗi
+
 
